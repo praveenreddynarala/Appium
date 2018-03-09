@@ -1,0 +1,136 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{B7D965C6-3207-4A52-809E-BA16672A5382}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>Appium</RootNamespace>
+    <AssemblyName>Appium</AssemblyName>
+    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="appium-dotnet-driver, Version=1.2.0.5, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\..\AutomationTools\AppiumTools\appium-dotnet-driver-master (2)\appium-dotnet-driver-master\appium-dotnet-driver\bin\Debug\appium-dotnet-driver.dll</HintPath>
+    </Reference>
+    <Reference Include="Gallio, Version=3.4.0.0, Culture=neutral, PublicKeyToken=eb9cfa67ee6ab36e, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>C:\Program Files\Gallio\bin\Gallio.dll</HintPath>
+    </Reference>
+    <Reference Include="HtmlAgilityPack">
+      <HintPath>..\..\..\CoralAutomation_MyThomson\CoralAutomation_MyThomson\_output\HtmlAgilityPack.dll</HintPath>
+    </Reference>
+    <Reference Include="log4net">
+      <HintPath>..\..\..\CoralAutomation_MyThomson\CoralAutomation_MyThomson\_output\log4net.dll</HintPath>
+    </Reference>
+    <Reference Include="log4net.extensions">
+      <HintPath>..\..\..\CoralAutomation_MyThomson\CoralAutomation_MyThomson\_output\log4net.extensions.dll</HintPath>
+    </Reference>
+    <Reference Include="MbUnit.Framework">
+      <HintPath>..\..\..\AutoNitroFramework\bin\Debug\MbUnit.Framework.dll</HintPath>
+    </Reference>
+    <Reference Include="Newtonsoft.Json, Version=6.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\..\Automation Tools\Appium Tools\appium-dotnet-driver-master (2)\appium-dotnet-driver-master\appium-dotnet-driver\bin\Debug\Newtonsoft.Json.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Configuration" />
+    <Reference Include="System.Configuration.Install" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Web.Extensions" />
+    <Reference Include="System.Windows.Forms" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Xml" />
+    <Reference Include="WebDriver, Version=2.44.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\Selenium.WebDriver.2.44.0\lib\net40\WebDriver.dll</HintPath>
+    </Reference>
+    <Reference Include="WebDriver.Support, Version=2.44.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\Selenium.Support.2.44.0\lib\net40\WebDriver.Support.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="AppiumLogger\AutonitroLog.cs" />
+    <Compile Include="AppiumLogger\ILogger.cs" />
+    <Compile Include="AppiumLogger\Log.cs" />
+    <Compile Include="AppiumLogger\Logger.cs" />
+    <Compile Include="AppiumLogger\LogManager.cs" />
+    <Compile Include="AppiumLogger\LogReader.cs" />
+    <Compile Include="AppiumLogger\LogWriter.cs" />
+    <Compile Include="BaseClasses\FileReader.cs" />
+    <Compile Include="CommonCls\CommonActions.cs" />
+    <Compile Include="CommonCls\ErrorHandlingParam.cs" />
+    <Compile Include="BaseClasses\BaseTest.cs" />
+    <Compile Include="Helpers\Apps.cs" />
+    <Compile Include="Helpers\AppiumServers.cs" />
+    <Compile Include="Helpers\Capabilities.cs" />
+    <Compile Include="BaseClasses\FrameGlobals.cs" />
+    <Compile Include="Helpers\Env.cs" />
+    <Compile Include="Helpers\Filters.cs" />
+    <Compile Include="Helpers\LocalServer.cs" />
+    <Compile Include="Report\HTMLReportCleaner.cs" />
+    <Compile Include="Report\HTMLvariables.cs" />
+    <Compile Include="Report\ReportLibrary.cs" />
+    <Compile Include="WatsUp\Library\CommonUserActions.cs" />
+    <Compile Include="WatsUp\Library\CommonUserCheckPoints.cs" />
+    <Compile Include="WatsUp\Library\WatsUpUserActions.cs" />
+    <Compile Include="WatsUp\Library\WatsUpUserCheckPoints.cs" />
+    <Compile Include="WatsUp\PageControls\LinkedInPage.cs" />
+    <Compile Include="WatsUp\PageControls\WatsUpWelcomePage.cs" />
+    <Compile Include="WatsUp\TestCases\LinkedInTest.cs" />
+    <Compile Include="WatsUp\TestCases\WhatsApp.cs" />
+    <Compile Include="BaseClasses\Resources.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Assets\com.whatsapp-2.11.357.apk">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="Assets\LinkedIn-3.4.apk" />
+    <None Include="TestSettings.config">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="packages.config">
+      <SubType>Designer</SubType>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Assets\index.html" />
+    <Content Include="TestData\Data.xml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      <SubType>Designer</SubType>
+    </Content>
+  </ItemGroup>
+  <ItemGroup />
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

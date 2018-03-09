@@ -1,0 +1,316 @@
+<html>
+<head>
+<script langauge="JavaScript" type="text/javascript">
+var timeDuration = 0;
+function  doMenu(item) {
+obj=document.getElementById(item);
+col=document.getElementById("x" + item);
+if (obj.style.display=="none") {
+obj.style.display="block";
+col.innerHTML="[-]";
+}else { 
+obj.style.display="none";
+col.innerHTML="[+]";
+}
+drawLine()
+}
+
+function drawLine()
+{
+objTabl=document.getElementById("main");
+mainDivLen=objTabl.offsetHeight
+objTabl=document.getElementById("list");
+listDivLen=objTabl.offsetHeight
+if (mainDivLen <= 580)
+{
+objTabl.style.height=700
+}
+else
+{
+objTabl.style.height=mainDivLen + 100
+}
+timeDuration = 0;
+}
+
+function dispLog(tcName, fileName, logs)
+{
+buttonDiv = document.getElementById("button")
+tcDiv = document.getElementById(tcName)
+newwindow = window.open("","");
+newwindow.document.write(tcDiv.innerHTML)
+newwindow.document.write("<B>Logs:</B>")
+newwindow.document.write(logs)
+
+newwindow.document.write("<B>Active Screen:</B>")
+filePath = String(newwindow.location)
+startPos = filePath.indexOf(":")
+endPos = filePath.lastIndexOf("/") + 1
+strLen = filePath.length
+sFPath = String(filePath).substring(startPos + 4,endPos)
+newwindow.document.write('<img src="' + fileName + '"/>')
+newwindow.document.write(buttonDiv.innerHTML)
+}
+
+function dispLog1(tcName, logs)
+{
+buttonDiv = document.getElementById("button")
+tcDiv = document.getElementById(tcName)
+newwindow = window.open("","");
+newwindow.document.write(tcDiv.innerHTML)
+newwindow.document.write("<B>Logs:</B>")
+newwindow.document.write(logs)
+newwindow.document.write(buttonDiv.innerHTML)
+}
+
+function calTime(idName)
+{
+totalDuration = 0;
+allTDs = document.getElementsByTagName("td");
+for(i=0;i<allTDs.length;i++)
+{
+if(allTDs(i).className == idName)
+{
+tdVal = (allTDs(i).innerHTML).split(" ");
+totalDuration = totalDuration + parseInt(tdVal[0])
+}}return(totalDuration)}
+
+function countTC(divName)
+{
+suiteDuration = 0
+parentDiv = document.getElementById(divName);
+childsDiv = parentDiv.childNodes;
+var retAry = new Array(2)
+total_tcCount=0
+failed_tcCount=0
+passed_tcCount=0
+/*switch (divName)
+{
+case "Sportsbook_T": suiteDuration = calTime("MarketTimeTD"); break
+case "Event_T": suiteDuration = calTime("EventTimeTD"); break
+case "Oxi_T": suiteDuration = calTime("oxiTimeTD"); break
+case "Affiliate_T": suiteDuration = calTime("affiliateTimeTD"); break
+}
+timeDuration = timeDuration + suiteDuration */
+for(i=0;i<childsDiv.length;i++)
+{
+if (childsDiv[i].id == "outer_table")
+{
+total_tcCount = total_tcCount + 1
+row = childsDiv[i].rows[0];
+cell = row.cells[1];
+if (cell.innerText == "Pass")
+{
+passed_tcCount = passed_tcCount + 1
+}
+else
+{
+failed_tcCount = failed_tcCount + 1
+}
+}
+}
+SuiteSumDiv = document.getElementById("Suite_Summary_Div");
+SuiteSumTabl = SuiteSumDiv.childNodes;
+for(i=0;i<SuiteSumTabl.length;i++)
+{
+if (SuiteSumTabl[i].id == "Suite_Summary_Table")
+{
+pos = divName.indexOf("_")
+SuiteSumTabl[i].rows[0].cells[0].innerText = divName.substring(0,pos);
+row = SuiteSumTabl[i].rows[0]
+cell = row.cells[0];
+cell.align = "center"
+cell.style.color="#393B0B"
+SuiteSumTabl[i].rows[1].cells[1].innerText = total_tcCount;
+SuiteSumTabl[i].rows[2].cells[1].innerText = passed_tcCount;
+SuiteSumTabl[i].rows[3].cells[1].innerText = failed_tcCount;
+SuiteSumTabl[i].rows[4].cells[1].innerText = parseInt((passed_tcCount/total_tcCount)*100) + " %";
+//SuiteSumTabl[i].rows[4].cells[1].innerText = suiteDuration + " mins";
+retAry[0] = total_tcCount
+retAry[1] = passed_tcCount
+retAry[2] = failed_tcCount
+return retAry;
+}
+}
+}
+function updateSumTabl(tblVal,tblName)
+{
+mainSumDiv = document.getElementById("summary_T");
+if(tblName=="sumTable_Summary")
+{
+mainSumTabl = mainSumDiv.getElementsByTagName("TABLE");
+mainSumTabl[0].rows[1].cells[1].innerText = tblVal[0];
+mainSumTabl[0].rows[2].cells[1].innerText = tblVal[1];
+mainSumTabl[0].rows[3].cells[1].innerText = tblVal[2];
+mainSumTabl[0].rows[4].cells[1].innerText = ((tblVal[1] / tblVal[0])*100) +" %";
+return
+}
+childSubTabls = mainSumDiv.getElementsByTagName("TABLE")
+for(i=0;i<childSubTabls.length;i++)
+{
+if (childSubTabls[i].id == tblName)
+{
+childSubTabls[i].rows[0].cells[1].innerText = tblVal[0];
+childSubTabls[i].rows[1].cells[1].innerText = tblVal[1];
+childSubTabls[i].rows[2].cells[1].innerText = tblVal[2];
+childSubTabls[i].rows[3].cells[1].innerText = int.Parse((tblVal[1]/tblVal[0])*100) + " %";
+}
+}
+}
+function findSuite()
+{
+var sumtotal = new Array(2)
+sumtotal[0] = 0
+sumtotal[1] = 0
+sumtotal[2] = 0
+var divNameAry = []
+var tableNameAry = new Array(3)
+fixtures = document.getElementsByName("fixture")
+for(i=0;i<fixtures.length;i++)
+{
+divNameAry.push(fixtures(i).getAttribute("id"))
+}
+tableNameAry[0] = "sumTable_Market"
+tableNameAry[1] = "sumTable_Event"
+for(suitLen=0;suitLen<tableNameAry.length;suitLen++)
+{
+suiteDiv = document.getElementById(divNameAry[suitLen]);
+if(suiteDiv)
+{
+retVal = countTC(divNameAry[suitLen])
+//Updating All th table values in Summary table
+sumtotal[0] = sumtotal[0] + retVal[0]
+sumtotal[1] = sumtotal[1] + retVal[1]
+sumtotal[2] = sumtotal[2] + retVal[2]
+updateSumTabl(retVal,divNameAry[suitLen])
+}
+}
+//Updating Main Summary table value in Summary table
+updateSumTabl(sumtotal,'sumTable_Summary')
+}
+function showDiv(id)
+{
+if (!(id=="summary_T"))
+{
+countTC(id)
+}
+else {
+findSuite()
+}
+var allDiv=new Array(3)
+allDiv[0]="summary_T"
+allDiv[1]="Sportsbook_T"
+allDiv[2]="Event_T"
+allDiv[3]="Oxi_T"
+for (i=0;i<allDiv.length;i++ )
+{
+if (!(allDiv[i]==id))
+{
+objDiv=document.getElementsByTagName("div");
+for (i=0;i<objDiv.length;i++ )
+{
+if ((objDiv[i].id!=id) && ((objDiv[i].id!="list") && (objDiv[i].id!="main")))
+{
+objDiv[i].style.display="none";
+}
+}
+}
+}
+objDiv=document.getElementsByTagName("div");
+for (i=0;i<objDiv.length;i++ )
+{
+if (objDiv[i].id==id)
+{
+if (!(id=="summary_T"))
+{
+SuiteSumDiv = document.getElementById("Suite_Summary_Div");
+SuiteSumDiv.style.display = "block";
+}
+objDiv[i].style.display="block";
+}
+}
+drawLine()
+}
+</script>
+<style type="text/css">
+html,body{
+top:0px;
+padding:0px;
+margin-top:0px;
+}
+div#list
+{
+float:left;
+padding-top: 150px;
+position: absolute;
+border-right:5px solid;
+border-right-style: outset;
+height:100%;
+top: 20px;
+}
+.body-font{
+font-family:Calibri, san-serif;
+font-size:16px;
+font-weight:bold;
+color:#000;
+text-decoration:none;
+}
+.menu-font{
+font-family: arial, san-serif, verdana;
+font-size:20px;
+font-weight:bold;
+color:"#3300FF";
+text-decoration:none;
+}
+.header-font{
+font-family: arial, san-serif, verdana;
+font-size:12px;
+font-weight:bold;
+color:"#0B2161";
+text-decoration:none;
+}
+</style>
+<body class="body-font" onload="JavaScript:showDiv('summary_T')">
+<div id="list">
+<span id="Summary_span"><a href="JavaScript:showDiv('summary_T');" id="Summary_link"><h2 class="menu-font">Summary</h2></a></span>
+<span><a href="JavaScript:showDiv('LinkedInTest');"><h2 class="menu-font">LinkedInTest</h2></a></span></div>
+ <br>
+<table align="center" style="color:#FFFFFF; font:Arial, Helvetica, sans-serif; font-style:italic; font-size:36px;" border="0">
+<tr><td width='40%'></td>
+<td align="center" bgcolor="#B00000"><strong>&nbsp;Test Report&nbsp;</strong></td>
+<td width='40%' align='Center'></td>
+</tr>
+</table>
+<div id="main">
+<h1 align="center">Automation Report</h1><div id="Suite_Summary_Div" style="margin-left:1em; display:none">
+<table id="Suite_Summary_Table" align="Center" style="border-color: black; border-style: solid;" border="1" width="350" face="Trebuchet MS">
+<tr><th colspan="2"><h3 align="Center">Summary</h3></th></tr>
+<tr><td> Total Test Run </td><td> </td></tr>
+<tr><td> Total Test Pass </td><td> </td></tr>
+<tr><td> Total Test Fail </td><td>0</td></tr>
+<tr><td> Pass Percentage </td><td> </td></tr>
+</table>
+</div>
+<div id="summary_T" style="margin-left:1em; display:none">
+<table id="sumTable_Summary" align="Center" style="border-color: black; border-style: solid;" border="1" width="500" face="Trebuchet MS">
+<tr><td><h3 align="Center">Summary</h3></td></tr>
+<tr><td width="80%">Total Test Cases Run </td><td width="20%">Not Run</td></tr>
+<tr><td width="80%">Total Test Cases Passed</td><td width="20%">Not Run</td></tr>
+<tr><td width="80%">Total Test Cases Failed</td><td width="20%">Not Run</td></tr>
+<tr><td width="80%"> Pass Percentage</td><td width="20%">Not Run%</td></tr>
+</table>
+</div>
+<tr><td>
+</td></tr>
+<br>
+</div></body></head></html></div><div id= LinkedInTest style="margin-left:5%; display:none" name="fixture">
+<h1 align="center"></h1><!-- Outer table --><TABLE align = "center" style= "border-color: black; border-style: solid;"   border="1" width="700" face="Trebuchet MS"><tr><td><h3 align = "Center">LinkedInTest</h3></td></tr>
+<div id="button">
+<form>
+<center>
+<input type="button" style="width:60px;height:30px;background:#2F4F4F;border:1px solid black" value="Close" onClick="javascript:window.close();">
+</center>
+</form>
+</div>
+
+<TABLE id = "outer_table" align = "Center" style= "border-color: black; border-style: solid;"border="1" width="700" face="Trebuchet MS"><tr><td width = "80%"><a href="JavaScript:doMenu('Init.LongPressOnElement.Cleanup');" id="xInit.LongPressOnElement.Cleanup">[+]</a><b>Init.LongPressOnElement.Cleanup</b></td>
+<td bgcolor="Red" width = "10%"><a href="JavaScript:dispLog('Init.LongPressOnElement.Cleanup','E://Aditi//Appium//Appium//Appium//bin//Debug//ScreenshotFolder//Mobile//NativeApp//Android//Init.LongPressOnElement.Cleanup.Jpeg','undefined status object (IndexOutOfBounds)');">Fail</a></td><td bgcolor="Green" width = "10%">17 Seconds</td><tr><td><div id="Init.LongPressOnElement.Cleanup" style="margin-left:1em; display:none"><!--Inner table--><TABLE align = "Center" style= "border-color: black; border-style: solid;"   border="1" width="500" face="Trebuchet MS">
